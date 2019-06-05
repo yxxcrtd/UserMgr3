@@ -1,0 +1,127 @@
+@CHARSET "UTF-8";
+table{font-size:12px; margin:0; padding:0}
+ul, li{list-style:none}
+ul{padding:0; margin:0}
+a{outline:none; text-decoration:none; blr:expression(this.onFocus =   this.blur () )}
+a:focus{-moz-outline-style:none}
+a:hover{color:#F00}
+#css3{border:1px dashed #E6DBC0;
+-moz-border-radius:7px;
+-webkit-border-radius:7px;
+border-radius:7px;
+-moz-box-shadow:5px 10px 10px rgba(0,0,0,0.5);
+-webkit-box-shadow:5px 10px 10px rgba(0,0,0,0.5);
+box-shadow:5px 10px 10px rgba(0,0,0,0.5)}
+#username, #password, #repassword, #verifyCode, #answer{font-weight:bold; width:155px; height:23px}
+h2{font-size:20px; padding-top:10px}
+.btn {cursor: pointer;
+border: none;
+color: #FFF !important;
+margin: 0 10px 0 20px;
+padding: 4px 13px 4px 13px; _padding-top: 4px; _padding-left: 7px;
+font: bold 13px "Helvetica Neue", Helvetica, Arial, clean, sans-serif !important;
+background: url("../images/bg_button.png") no-repeat;
+-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; -moz-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
+-webkit-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5); box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
+text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.20);
+blr: expression(this.onFocus =   this.blur () )}
+.btn::-moz-focus-inner {border: none; border-color: transparent !important}
+.btn:hover,.btn:focus {background-position: 0 -50px; color: #FFF !important; background: url("../images/bg_button.png") no-repeat}
+.btn:active {background-position: 0 -100px; -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.7); -webkit-box-shadow: none; border-bottom: 0\9; border-top: 1px solid #666\9; background: url("../images/bg_button.png") no-repeat}
+.errorMessage{color:#F00; font-weight:bold}
+
+.wizardBtn { border-width:1px; padding:0px;
+width: 140px; height:30px; padding: 0px;
+background: #DFDDDE;
+-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+font-size:13px;
+cursor: pointer;
+}
+
+.registerbtn { 
+	border-width:1px;
+	border-color:#BDE3F8;
+padding:0px;
+width: 140px; height:30px; padding: 0px;
+background: #BDE3F8;
+-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+font-size:13px;
+cursor: pointer;
+}
+
+#mainNavCaption {width:180px;float:left;text-align:right;padding-right:20px;padding-top:10px}
+
+#wizardcontent {text-align:left; padding-left:15px}
+#wizardcontent input[type=text],input[type=password]{ border: 1px solid #DDDDDD;height:24px;width:180px;}
+
+#mainNav li em{width:160px; display:block; margin:15px 0 10px 15px; font-style:normal; font-weight:bold}
+#mainNav li span{width:250px; display:block; margin:10px 0 10px 15px; font-weight:normal}
+#mainNav li span a{cursor: pointer;}
+#mainNav{clear:both;padding-top:10px}
+#mainNav li{height:40px; display:block; list-style:none; float:left; color:#E6DBC0; background-color:#EBEBEB; background-image:url(../images/navBtn.gif); background-repeat:no-repeat; background-position:right top}
+#mainNav li.corner{-moz-border-radius-bottomleft:7px; -webkit-border-bottom-left-radius:7px; border-bottom-left-radius:7px}
+#mainNav li.current{background-color:#79ABF4; background-image:url(../images/navCurrentBtn.gif)}
+#mainNav li.lastDone{background-color:#79ABF4; background-image:url(../images/navLastDoneBtn.gif)}
+#mainNav li.done{background-color:#7C8437; background-image:url(../images/navDoneBtn.gif)}
+#mainNav.threeStep li.finalStep{background-image:none; width:34%; -moz-border-radius-bottomright:7px; -webkit-border-bottom-right-radius:7px; border-bottom-right-radius:7px}
+#mainNav li.lastDone, #mainNav li.current, #mainNav li.done{color:#FFF}
+#mainNav li.done, #mainNav li.lastDone{color:#CCC}
+#mainNav.threeStep li{width:33%}
+#wizardpanel{display:none}
+.loadImg{display:none; padding:0 0 0 13px; margin-left:1px; background-image:url("../images/loading.gif"); background-repeat:no-repeat}
+.mustInput{border:1px solid #F00; background-image:url("../images/inputBottom.gif"); background-repeat:repeat-x; background-position:bottom}
+#usernameTip, #answerTip, #passwordTip, #repasswordTip{color:#F00; font-weight:bold}
+.listTable {
+    border: 1px solid #E6DBC0;
+    border-collapse: collapse;
+    font-family: verdana, arial, sans-serif, '宋体';
+    font-size: 12px;
+    width: 100%;
+}
+
+.listTable thead tr {
+    background: url(images/bg.gif) repeat center center;
+}
+
+.listTable thead th {
+    border: 1px dotted #E6DBC0;
+    padding: 3px 2px 3px 2px;
+    /*background-color: #e5e5e5;*/
+    white-space: nowrap;
+}
+
+/* 分页 div 属性 */
+.pager {
+    text-align: right;
+    margin: 4px auto 4px;
+    font-size: 13px; 
+    line-height: 1.4em
+}
+.btnpage{
+	  cursor: pointer;
+	  border-width:1px; 
+	  padding:0px;
+      width:80px; 
+      height:24px; 
+      padding: 0px;
+      border:0px;
+      background: #ffffff;
+      border: 1px solid #E6DBC0;
+      color:#A7A7A7;
+	}
+}
+.btnn { 
+	border-width:1px; 
+	padding:0px;
+    width: 100px; 
+    height:30px; 
+    padding: 0px; 
+    background: #BEE4F9; 
+    -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+    font-size:12px;
+-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; -moz-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
+-webkit-box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5); box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
+text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.20);
+
+}
+.btnn:hover { cursor: pointer; }

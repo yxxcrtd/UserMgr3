@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="cn.edustar.usermgr.pojos.School" table="T_School">
+		<id name="id" type="int">
+			<column name="Id" />
+			<generator class="identity" />
+		</id>
+		<property name="unitGuid" type="java.lang.String">
+			<column name="unitGuid" length="50" not-null="true" />
+		</property>
+		<property name="schoolName" type="java.lang.String">
+			<column name="schoolName" length="512" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

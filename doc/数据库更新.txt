@@ -1,0 +1,109 @@
+T_User表增加一个字段  unitGuid varchar类型  允许null
+增加数据表 T_School
+CREATE TABLE [dbo].[T_School](
+    [Id] [int] IDENTITY(1,1) NOT NULL,
+    [unitGuid] [varchar](50) NOT NULL,
+    [schoolName] [nvarchar](512) NOT NULL,
+ CONSTRAINT [PK_T_School] PRIMARY KEY CLUSTERED 
+(
+    [Id] ASC
+) ON [PRIMARY]
+) ON [PRIMARY]
+
+T_Config数据表有三个记录！
+
+   isShowVerifyCode    false
+   isRegisterEnable    true
+   isSelectSchool      true
+   
+T_User 中 userName的唯一索引 修改为不是唯一，因为允许登录名重复
+
+
+----------------------------------建立T_School表
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[T_School]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+Begin
+CREATE TABLE [dbo].[T_School](
+    [Id] [int] IDENTITY(1,1) NOT NULL,
+    [unitGuid] [varchar](50) NOT NULL,
+    [schoolName] [nvarchar](512) NOT NULL,
+ CONSTRAINT [PK_T_School] PRIMARY KEY CLUSTERED 
+(
+    [Id] ASC
+) ON [PRIMARY]
+) ON [PRIMARY]
+END
+Go
+
+if not exists (select * from T_Config Where ConfigKey='isShowVerifyCode')
+Begin
+Insert Into T_Config(ConfigKey,ConfigValue) Values('isShowVerifyCode','false')
+End
+GO
+
+if not exists (select * from T_Config Where ConfigKey='isRegisterEnable')
+Begin
+Insert Into T_Config(ConfigKey,ConfigValue) Values('isRegisterEnable','false')
+End
+Go
+
+if not exists (select * from T_Config Where ConfigKey='isSelectSchool')
+Begin
+Insert Into T_Config(ConfigKey,ConfigValue) Values('isSelectSchool','false')
+End
+Go
+
+ALTER TABLE T_User ADD unitGuid varchar(50)
+Go
+
+
+-----------------------------------------------------导出办公的用户信息------------------------------------------------
+--***************************************办公OA导入学校信息*****************************************
+DECLARE @schoolname as varchar(100)
+DECLARE @schoolguid as varchar(40)
+
+DECLARE corss_cursor CURSOR FOR SELECT [Hname]
+      ,[GUID]
+  FROM [EduOA].[dbo].[service_School] Where isDel=0
+  OPEN corss_cursor
+FETCH NEXT FROM corss_cursor INTO @schoolname,@schoolguid
+WHILE @@FETCH_STATUS = 0  
+Begin
+ print 'Insert Into T_School(unitGuid,schoolName) Values('''+@schoolguid+''','''+@schoolname+''')'
+ print 'Go'
+ FETCH NEXT FROM corss_cursor INTO @schoolname,@schoolguid
+End
+CLOSE corss_cursor 
+DEALLOCATE corss_cursor
+
+--***************************************办公OA导入用户信息*****************************************
+DECLARE @loginname as varchar(100)
+DECLARE @password as varchar(100)
+DECLARE @username as varchar(100)
+DECLARE @userguid as varchar(40)
+DECLARE @question as varchar(100)
+DECLARE @answer as varchar(100)
+DECLARE @Email as varchar(100)
+DECLARE @schoolguid as varchar(40)
+
+DECLARE corss_cursor CURSOR FOR SELECT a.[loginName]
+      ,a.[loginPassword]
+      ,a.[userName]
+      ,a.[userGuid]
+      ,a.[question]
+      ,a.[answer]
+      ,a.[Email]
+      ,b.[GUID] as schoolGuid
+  FROM [EduOA].[dbo].[user_School] a,[EduOA].[dbo].[service_School] b Where a.schoolId=b.id and a.isDel=0 and a.loginName <>'admin'
+OPEN corss_cursor
+FETCH NEXT FROM corss_cursor INTO @loginname,@password,@username,@userguid,@question,@answer,@Email,@schoolguid
+WHILE @@FETCH_STATUS = 0  
+Begin
+ print 'Insert Into T_User(GUID,TrueName,UserName,Password,Email,Question,Answer,unitGuid,Status) Values('''+@userguid+''','''+@username+''','''+@loginname+''','''+@password+''','''+@Email+''','''+@question+''','''+@answer+''','''+@schoolguid+''',0)'
+ print 'Go'
+ FETCH NEXT FROM corss_cursor INTO  @loginname,@password,@username,@userguid,@question,@answer,@Email,@schoolguid
+End
+CLOSE corss_cursor 
+DEALLOCATE corss_cursor
+
+   
+   

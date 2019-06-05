@@ -1,0 +1,94 @@
+正常登录：流程信息：
+Hibernate: select config0_.Id as Id2_, config0_.ConfigKey as ConfigKey2_, config0_.ConfigValue as ConfigVa3_2_ from T_Config config0_ where config0_.ConfigKey=?
+2013-01-09 10:47:55,628 DEBUG: com.chinaedustar.sso.web.support.EdustarAuthenticationViaFormAction.validatorCode(EdustarAuthenticationViaFormAction.java:29) - 验证码：EdustarAuthenticationViaFormAction中Session里是：U4tz
+2013-01-09 10:47:55,628 DEBUG: com.chinaedustar.sso.web.support.EdustarAuthenticationViaFormAction.validatorCode(EdustarAuthenticationViaFormAction.java:31) - 验证码：UsernamePasswordVCodeCredentials中是：u4tz
+2013-01-09 10:47:55,647 DEBUG: com.alibaba.druid.pool.PreparedStatementPool.put(PreparedStatementPool.java:121) - {conn-10001, pstmt-20005} enter cache
+2013-01-09 10:47:55,649 INFO: org.jasig.cas.authentication.AuthenticationManagerImpl.authenticateAndObtainPrincipal(AuthenticationManagerImpl.java:99) - org.jasig.cas.adaptors.jdbc.SearchModeSearchDatabaseAuthenticationHandler successfully authenticated [username: admin]
+2013-01-09 10:47:55,650 DEBUG: org.jasig.cas.authentication.principal.AbstractPersonDirectoryCredentialsToPrincipalResolver.resolvePrincipal(AbstractPersonDirectoryCredentialsToPrincipalResolver.java:54) - Attempting to resolve a principal...
+2013-01-09 10:47:55,650 DEBUG: org.jasig.cas.authentication.principal.AbstractPersonDirectoryCredentialsToPrincipalResolver.resolvePrincipal(AbstractPersonDirectoryCredentialsToPrincipalResolver.java:64) - Creating SimplePrincipal for [admin]
+2013-01-09 10:47:55,651 INFO: org.jasig.cas.authentication.AuthenticationManagerImpl.authenticateAndObtainPrincipal(AuthenticationManagerImpl.java:126) - Resolved principal admin
+2013-01-09 10:47:55,652 INFO: org.jasig.cas.authentication.AbstractAuthenticationManager.authenticate(AbstractAuthenticationManager.java:42) - Principal found: admin
+2013-01-09 10:47:55,652 DEBUG: org.jasig.cas.authentication.AbstractAuthenticationManager.authenticate(AbstractAuthenticationManager.java:45) - Attribute map for admin: {uid=uid, eduPersonAffiliation=eduPersonAffiliation, groupMembership=groupMembership}
+2013-01-09 10:47:55,655 INFO: com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager.record(Slf4jLoggingAuditTrailManager.java:41) - Audit trail record BEGIN
+=============================================================
+WHO: [username: admin]
+WHAT: supplied credentials: [username: admin]
+ACTION: AUTHENTICATION_SUCCESS
+APPLICATION: CAS
+WHEN: Wed Jan 09 10:47:55 CST 2013
+CLIENT IP ADDRESS: 127.0.0.1
+SERVER IP ADDRESS: 127.0.0.1
+=============================================================
+
+
+2013-01-09 10:47:55,657 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.addTicket(DefaultTicketRegistry.java:49) - Added ticket [TGT-1-hLnfFHpagjv2dluPqfY9DNFg5YZtjH9hncikYMBt4tTzik7E9g-cas] to registry.
+2013-01-09 10:47:55,657 INFO: com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager.record(Slf4jLoggingAuditTrailManager.java:41) - Audit trail record BEGIN
+=============================================================
+WHO: [username: admin]
+WHAT: TGT-1-hLnfFHpagjv2dluPqfY9DNFg5YZtjH9hncikYMBt4tTzik7E9g-cas
+ACTION: TICKET_GRANTING_TICKET_CREATED
+APPLICATION: CAS
+WHEN: Wed Jan 09 10:47:55 CST 2013
+CLIENT IP ADDRESS: 127.0.0.1
+SERVER IP ADDRESS: 127.0.0.1
+=============================================================
+
+
+2013-01-09 10:47:55,661 DEBUG: org.springframework.web.util.CookieGenerator.removeCookie(CookieGenerator.java:185) - Removed cookie with name [CASPRIVACY]
+2013-01-09 10:47:55,661 DEBUG: org.jasig.cas.web.flow.AuthenticationViaFormAction.submit(AuthenticationViaFormAction.java:101) - 用户提交登录信息，生成了 credentials,保存到Session中
+2013-01-09 10:47:55,662 DEBUG: org.jasig.cas.web.flow.AuthenticationViaFormAction.submit(AuthenticationViaFormAction.java:102) - Session is NULL ? false
+2013-01-09 10:47:55,662 DEBUG: org.jasig.cas.web.flow.AuthenticationViaFormAction.submit(AuthenticationViaFormAction.java:104) - Session id is 4282BDBECBC48F957CF6B3FFA23B48F2
+2013-01-09 10:47:55,662 DEBUG: org.jasig.cas.web.flow.AuthenticationViaFormAction.submit(AuthenticationViaFormAction.java:105) - Session里的 credentials is : admin
+2013-01-09 10:47:55,662 DEBUG: org.jasig.cas.web.flow.AuthenticationViaFormAction.submit(AuthenticationViaFormAction.java:110) - credentials的userName保存到cookies.....
+2013-01-09 10:47:55,663 DEBUG: org.springframework.web.util.CookieGenerator.addCookie(CookieGenerator.java:167) - Added cookie with name [EDUSTARSTUSER] and value [admin]
+2013-01-09 10:47:55,663 DEBUG: org.jasig.cas.web.support.CookieRetrievingCookieGenerator.retrieveCookieValue(CookieRetrievingCookieGenerator.java:65) - 尝试取回cookie[EDUSTARSTUSER]=null
+2013-01-09 10:47:55,663 DEBUG: org.jasig.cas.web.flow.AuthenticationViaFormAction.submit(AuthenticationViaFormAction.java:113) - 马上从cookies中得到userName.....null
+2013-01-09 10:47:55,664 DEBUG: org.jasig.cas.web.flow.SendTicketGrantingTicketAction.doExecute(SendTicketGrantingTicketAction.java:61) - 保存cookie[CASTGC]=TGT-1-hLnfFHpagjv2dluPqfY9DNFg5YZtjH9hncikYMBt4tTzik7E9g-cas
+2013-01-09 10:47:55,664 DEBUG: org.springframework.web.util.CookieGenerator.addCookie(CookieGenerator.java:167) - Added cookie with name [CASTGC] and value [TGT-1-hLnfFHpagjv2dluPqfY9DNFg5YZtjH9hncikYMBt4tTzik7E9g-cas]
+2013-01-09 10:47:55,664 DEBUG: org.jasig.cas.web.support.CookieRetrievingCookieGenerator.retrieveCookieValue(CookieRetrievingCookieGenerator.java:65) - 尝试取回cookie[CASTGC]=null
+2013-01-09 10:47:55,664 DEBUG: org.jasig.cas.web.flow.SendTicketGrantingTicketAction.doExecute(SendTicketGrantingTicketAction.java:66) - 马上得到cookie[CASTGC]=null
+2013-01-09 10:47:55,665 DEBUG: com.chinaedustar.sso.cas.util.LoginUserInfoAction.getUser(LoginUserInfoAction.java:33) - LoginUserInfoAction 中得到CurrentUser......
+2013-01-09 10:47:55,665 DEBUG: com.chinaedustar.sso.web.support.CurrentUser.getUser(CurrentUser.java:30) - CurrentUser session id = 4282BDBECBC48F957CF6B3FFA23B48F2
+Hibernate: select user0_.ID as ID0_, user0_.GUID as GUID0_, user0_.UserName as UserName0_, user0_.TrueName as TrueName0_, user0_.Password as Password0_, user0_.Email as Email0_, user0_.CreateDate as CreateDate0_, user0_.Status as Status0_, user0_.LastLoginIP as LastLogi9_0_, user0_.LastLoginTime as LastLog10_0_, user0_.CurrentLoginIP as Current11_0_, user0_.CurrentLoginTime as Current12_0_, user0_.LoginTimes as LoginTimes0_, user0_.Question as Question0_, user0_.Answer as Answer0_, user0_.Usn as Usn0_, user0_.Role as Role0_, user0_.RoleName as RoleName0_ from T_User user0_ where user0_.UserName=?
+2013-01-09 10:47:55,677 DEBUG: com.alibaba.druid.pool.PreparedStatementPool.put(PreparedStatementPool.java:121) - {conn-10001, pstmt-20006} enter cache
+2013-01-09 10:47:55,678 DEBUG: com.chinaedustar.sso.web.support.CurrentUser.getUser(CurrentUser.java:44) - CurrentUser 根据session里credentials的admin，得到User:
+*******request.getRequestURI()=/usermgr3/login
+*******/usermgr3/login?username=%5BLjava.lang.String%3B%402d08c967&submit=%5BLjava.lang.String%3B%401bdea04a&_eventId=%5BLjava.lang.String%3B%4034ed6891&lt=%5BLjava.lang.String%3B%404e6c22bc&password=%5BLjava.lang.String%3B%401d5c8cdd&vcode=%5BLjava.lang.String%3B%402724103a&execution=%5BLjava.lang.String%3B%4030a563e9
+2013-01-09 10:47:55,681 DEBUG: org.jasig.cas.web.support.AbstractSingleSignOutEnabledArgumentExtractor.extractService(AbstractSingleSignOutEnabledArgumentExtractor.java:65) - Extractor did not generate service.
+2013-01-09 10:47:55,681 DEBUG: org.jasig.cas.web.support.AbstractSingleSignOutEnabledArgumentExtractor.extractService(AbstractSingleSignOutEnabledArgumentExtractor.java:65) - Extractor did not generate service.
+2013-01-09 10:47:55,688 DEBUG: org.jasig.cas.web.flow.TerminateWebSessionListener.sessionEnded(TerminateWebSessionListener.java:86) - Terminate web session 4282BDBECBC48F957CF6B3FFA23B48F2 in 2 seconds
+
+
+但是出现登陆成功页面后，点击设置配置的时候，就找不到用户信息了。。。。。 session是空，cookies里也没有
+
+2013-01-09 09:51:39,090 DEBUG: com.chinaedustar.sso.web.support.CurrentUser.getUser(CurrentUser.java:27) - HttpServletRequest session是空
+2013-01-09 09:51:39,090 DEBUG: com.chinaedustar.sso.web.support.CurrentUser.getUserFromCookies(CurrentUser.java:54) - edustarUserNameCookieGenerator 没得到user信息
+
+
+Session找不到的原因找到了！
+
+CAS登录使用的webflow有个设置listen  terminateWebSessionListener,就是完成流程后，销毁Session,现在注释掉了
+
+  <webflow:flow-executor id="flowExecutor" flow-registry="flowRegistry">
+    <webflow:flow-execution-attributes>
+      <webflow:always-redirect-on-pause value="false"/>
+      <webflow:redirect-in-same-state value="false" />
+    </webflow:flow-execution-attributes>
+    <!--
+    <webflow:flow-execution-listeners>
+      <webflow:listener ref="terminateWebSessionListener" />
+    </webflow:flow-execution-listeners>
+    -->
+  </webflow:flow-executor>
+  
+
+
+
+2013-01-09 11:05:09,702 DEBUG: org.jasig.cas.web.flow.AuthenticationViaFormAction.submit(AuthenticationViaFormAction.java:110) - credentials的userName保存到cookies.....
+2013-01-09 11:05:09,702 DEBUG: org.springframework.web.util.CookieGenerator.addCookie(CookieGenerator.java:167) - Added cookie with name [EDUSTARSTUSER] and value [admin]
+2013-01-09 11:05:09,702 DEBUG: org.jasig.cas.web.support.CookieRetrievingCookieGenerator.retrieveCookieValue(CookieRetrievingCookieGenerator.java:65) - 尝试取回cookie[EDUSTARSTUSER]=null
+2013-01-09 11:05:09,702 DEBUG: org.jasig.cas.web.flow.AuthenticationViaFormAction.submit(AuthenticationViaFormAction.java:113) - 马上从cookies中得到userName.....null
+2013-01-09 11:05:09,703 DEBUG: org.jasig.cas.web.flow.SendTicketGrantingTicketAction.doExecute(SendTicketGrantingTicketAction.java:61) - 保存cookie[CASTGC]=TGT-2-lL7kidG6FgdA5al6qdUXsOSC3eg6QVgAiCAXlfHdodijndhkpq-cas
+2013-01-09 11:05:09,703 DEBUG: org.springframework.web.util.CookieGenerator.addCookie(CookieGenerator.java:167) - Added cookie with name [CASTGC] and value [TGT-2-lL7kidG6FgdA5al6qdUXsOSC3eg6QVgAiCAXlfHdodijndhkpq-cas]
+2013-01-09 11:05:09,703 DEBUG: org.jasig.cas.web.support.CookieRetrievingCookieGenerator.retrieveCookieValue(CookieRetrievingCookieGenerator.java:65) - 尝试取回cookie[CASTGC]=null
+2013-01-09 11:05:09,703 DEBUG: org.jasig.cas.web.flow.SendTicketGrantingTicketAction.doExecute(SendTicketGrantingTicketAction.java:66) - 马上得到cookie[CASTGC]=null

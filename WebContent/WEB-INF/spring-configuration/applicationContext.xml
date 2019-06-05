@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    
+	       
+    <tx:annotation-driven />
+	
+	<!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入
+	<context:component-scan base-package="com.chinaedustar.sso.user.dao" />
+	<context:component-scan base-package="com.chinaedustar.sso.user.service" />
+	 -->
+	
+	<!-- 数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+	    <property name="url" value="${jdbc.url}" />
+	    <property name="username" value="${jdbc.user}" />
+	    <property name="password" value="${jdbc.password}" />
+	    <property name="filters" value="stat" />
+	    <property name="maxActive" value="20" />
+	    <property name="initialSize" value="1" />
+	    <property name="maxWait" value="60000" />
+	    <property name="minIdle" value="1" />
+	    <property name="timeBetweenEvictionRunsMillis" value="3000" />
+	    <property name="minEvictableIdleTimeMillis" value="300000" />
+	    <property name="validationQuery" value="SELECT 'x'" />
+	    <property name="testWhileIdle" value="true" />
+	    <property name="testOnBorrow" value="false" />
+	    <property name="testOnReturn" value="false" />
+	    <property name="poolPreparedStatements" value="true" />
+	    <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	</bean>
+
+	<!-- 定义Jdbc模板Bean（将 数据源 注入到 Jdbc模板Bean 中，而这个 Jdbc模板Bean 通过 @Autowired 自动注入到引用的的 DAO 中） -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" 
+		p:dataSource-ref="dataSource" />
+
+<!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref local="dataSource" />
+        </property>
+        <property name="mappingResources">
+            <list>
+                <value>cn/edustar/usermgr/pojos/User.hbm.xml</value>
+                <value>cn/edustar/usermgr/pojos/UserToken.hbm.xml</value>
+                <value>cn/edustar/usermgr/pojos/Config.hbm.xml</value>
+                <value>cn/edustar/usermgr/pojos/School.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.connection.release_mode">auto</prop>
+                <prop key="hibernate.autoReconnect">true</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+        lazy-init="true">
+        <property name="sessionFactory">
+            <ref local="sessionFactory" />
+        </property>
+    </bean>
+    <bean id="transactionInterceptor"
+        class="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="transactionAttributes">
+            <props>
+                <prop key="get*">PROPAGATION_REQUIRED, readOnly</prop>
+                <prop key="find*">PROPAGATION_REQUIRED, readOnly</prop>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Including this aspectj-autoproxy element will cause spring to automatically create proxies around any beans defined in this file that match the pointcuts of any aspects defined in this file. -->
+    <aop:aspectj-autoproxy/>
+
+    <!-- Declare the TimingAspect that we want to weave into the other beans defined in this config file. -->
+    <bean id="timingAspect" class="org.perf4j.log4j.aop.TimingAspect"/>
+
+    <!-- Message source for this context, loaded from localized "messages_xx" files -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
+          p:basename="messages"/>
+
+    <bean id="servicesManager" class="org.jasig.cas.services.DefaultServicesManagerImpl">
+        <constructor-arg index="0" ref="serviceRegistryDao"/>
+    </bean>
+
+    <!-- Job to periodically reload services from service registry. This job is needed for a clustered CAS environment since service changes in one CAS node are not known to the other until a reload. -->
+    <bean id="serviceRegistryReloaderJobDetail"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
+          p:targetObject-ref="servicesManager"
+          p:targetMethod="reload"/>
+
+    <bean id="periodicServiceRegistryReloaderTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean"
+          p:jobDetail-ref="serviceRegistryReloaderJobDetail"
+          p:startDelay="${service.registry.quartz.reloader.startDelay:120000}"
+          p:repeatInterval="${service.registry.quartz.reloader.repeatInterval:120000}"/>
+
+    <!-- 服务器端的超时设置 -->
+    <bean id="httpClient" class="org.jasig.cas.util.HttpClient"
+          p:readTimeout="5000"
+          p:connectionTimeout="5000"/>
+
+    <bean id="noRedirectHttpClient" class="org.jasig.cas.util.HttpClient" parent="httpClient"
+          p:followRedirects="false" />
+
+    <bean id="persistentIdGenerator" class="org.jasig.cas.authentication.principal.ShibbolethCompatiblePersistentIdGenerator"
+          p:salt="casrocks"/>
+
+    <!-- CentralAuthenticationService -->
+    <bean id="centralAuthenticationService" class="org.jasig.cas.CentralAuthenticationServiceImpl"
+          p:ticketGrantingTicketExpirationPolicy-ref="grantingTicketExpirationPolicy"
+          p:serviceTicketExpirationPolicy-ref="serviceTicketExpirationPolicy"
+          p:authenticationManager-ref="authenticationManager"
+          p:ticketGrantingTicketUniqueTicketIdGenerator-ref="ticketGrantingTicketUniqueIdGenerator"
+          p:ticketRegistry-ref="ticketRegistry"
+          p:servicesManager-ref="servicesManager"
+          p:persistentIdGenerator-ref="persistentIdGenerator"
+          p:uniqueTicketIdGeneratorsForService-ref="uniqueIdGeneratorsMap" />
+
+    <bean id="proxy10Handler" class="org.jasig.cas.ticket.proxy.support.Cas10ProxyHandler"/>
+
+    <bean id="proxy20Handler" class="org.jasig.cas.ticket.proxy.support.Cas20ProxyHandler"
+          p:httpClient-ref="httpClient"
+          p:uniqueTicketIdGenerator-ref="proxy20TicketUniqueIdGenerator"/>
+
+    <!-- ADVISORS -->
+    <bean id="advisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="validationAnnotationBeanPostProcessor" class="org.jasig.cas.util.CustomBeanValidationPostProcessor"
+            p:afterInitialization="true" />
+
+    <!-- The scheduler bean wires up any triggers that define scheduled tasks -->
+    <bean id="scheduler" class="org.jasig.cas.util.AutowiringSchedulerFactoryBean" />
+    
+    <!-- Spring-Json View provides a JsonExceptionResolver exceptions thrown during a controller action -->
+    <bean id="jsonExceptionResolver" class="org.springframework.web.servlet.view.json.exception.JsonExceptionResolver">
+        <property name="exceptionView" value="jsonView" />
+        <property name="errorHandler">
+	        <list>
+	        	<bean class="org.springframework.web.servlet.view.json.error.HttpStatusError" p:errorCode="412"/>
+	            <bean class="org.springframework.web.servlet.view.json.error.ModelFlagError" />
+	        </list>
+        </property>
+        <property name="exceptionHandler">
+	        <list>
+	        	<bean class="org.springframework.web.servlet.view.json.exception.ExceptionMessageExceptionHandler" />
+	            <bean class="org.springframework.web.servlet.view.json.exception.StackTraceExceptionHandler" />
+	        </list>
+        </property>
+    </bean>
+        
+</beans>

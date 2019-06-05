@@ -1,0 +1,349 @@
+用户开始登录【访问的是usermgr3的login,提交】：
+用户基本信息是这个接口
+org.jasig.services.persondir.IPersonAttributes
+先验证一次信息：
+2012-12-29 11:40:36,014 INFO: org.jasig.cas.authentication.AuthenticationManagerImpl.authenticateAndObtainPrincipal(AuthenticationManagerImpl.java:98) - org.jasig.cas.adaptors.jdbc.SearchModeSearchDatabaseAuthenticationHandler successfully authenticated [username: admin]
+
+生成一个 SimplePrincipal：
+2012-12-29 11:40:36,016 DEBUG: org.jasig.cas.authentication.principal.AbstractPersonDirectoryCredentialsToPrincipalResolver.resolvePrincipal(AbstractPersonDirectoryCredentialsToPrincipalResolver.java:54) - Attempting to resolve a principal...
+2012-12-29 11:40:36,016 DEBUG: org.jasig.cas.authentication.principal.AbstractPersonDirectoryCredentialsToPrincipalResolver.resolvePrincipal(AbstractPersonDirectoryCredentialsToPrincipalResolver.java:64) - Creating SimplePrincipal for [admin]
+
+
+2012-12-29 11:40:36,017 INFO: org.jasig.cas.authentication.AuthenticationManagerImpl.authenticateAndObtainPrincipal(AuthenticationManagerImpl.java:125) - Resolved principal admin
+2012-12-29 11:40:36,017 INFO: org.jasig.cas.authentication.AbstractAuthenticationManager.authenticate(AbstractAuthenticationManager.java:42) - Principal found: admin
+2012-12-29 11:40:36,018 DEBUG: org.jasig.cas.authentication.AbstractAuthenticationManager.authenticate(AbstractAuthenticationManager.java:45) - Attribute map for admin: {uid=uid, eduPersonAffiliation=eduPersonAffiliation, groupMembership=groupMembership}
+2012-12-29 11:40:36,024 INFO: com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager.record(Slf4jLoggingAuditTrailManager.java:41) - Audit trail record BEGIN
+=============================================================
+WHO: [username: admin]
+WHAT: supplied credentials: [username: admin]
+ACTION: AUTHENTICATION_SUCCESS
+APPLICATION: CAS
+WHEN: Sat Dec 29 11:40:36 CST 2012
+CLIENT IP ADDRESS: 127.0.0.1
+SERVER IP ADDRESS: 127.0.0.1
+=============================================================
+
+生成一个TGT:
+
+2012-12-29 11:40:36,025 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.addTicket(DefaultTicketRegistry.java:49) - Added ticket [TGT-1-A4Mch7XLz0sZssh0ZoQuDVP1BZbKcYJ4hxxFTdtbHBeJwlSzcf-cas] to registry.
+2012-12-29 11:40:36,027 INFO: com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager.record(Slf4jLoggingAuditTrailManager.java:41) - Audit trail record BEGIN
+=============================================================
+WHO: [username: admin]
+WHAT: TGT-1-A4Mch7XLz0sZssh0ZoQuDVP1BZbKcYJ4hxxFTdtbHBeJwlSzcf-cas
+ACTION: TICKET_GRANTING_TICKET_CREATED
+APPLICATION: CAS
+WHEN: Sat Dec 29 11:40:36 CST 2012
+CLIENT IP ADDRESS: 127.0.0.1
+SERVER IP ADDRESS: 127.0.0.1
+=============================================================
+
+
+2012-12-29 11:40:36,027 DEBUG: org.springframework.web.util.CookieGenerator.removeCookie(CookieGenerator.java:185) - Removed cookie with name [CASPRIVACY]
+2012-12-29 11:40:36,028 DEBUG: org.springframework.web.util.CookieGenerator.addCookie(CookieGenerator.java:167) - Added cookie with name [CASTGC] and value [TGT-1-A4Mch7XLz0sZssh0ZoQuDVP1BZbKcYJ4hxxFTdtbHBeJwlSzcf-cas]
+2012-12-29 11:40:36,029 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.getTicket(DefaultTicketRegistry.java:60) - Attempting to retrieve ticket [TGT-1-A4Mch7XLz0sZssh0ZoQuDVP1BZbKcYJ4hxxFTdtbHBeJwlSzcf-cas]
+2012-12-29 11:40:36,029 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.getTicket(DefaultTicketRegistry.java:65) - Ticket [TGT-1-A4Mch7XLz0sZssh0ZoQuDVP1BZbKcYJ4hxxFTdtbHBeJwlSzcf-cas] found in registry.
+
+将要访问的授权页面：http://www.jitar.com.cn:8080/castest1/
+当前服务器端保存的TGT是：TGT-1-A4Mch7XLz0sZssh0ZoQuDVP1BZbKcYJ4hxxFTdtbHBeJwlSzcf-cas
+
+2012-12-29 11:40:36,030 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.addTicket(DefaultTicketRegistry.java:49) - Added ticket [ST-1-pS0uSpajeRFMpmVpikPp-cas] to registry.
+2012-12-29 11:40:36,032 INFO: org.jasig.cas.CentralAuthenticationServiceImpl.grantServiceTicket(CentralAuthenticationServiceImpl.java:262) - Granted service ticket [ST-1-pS0uSpajeRFMpmVpikPp-cas] for service [http://www.jitar.com.cn:8080/castest1/] for user [admin]
+2012-12-29 11:40:36,032 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.getTicket(DefaultTicketRegistry.java:60) - Attempting to retrieve ticket [TGT-1-A4Mch7XLz0sZssh0ZoQuDVP1BZbKcYJ4hxxFTdtbHBeJwlSzcf-cas]
+2012-12-29 11:40:36,032 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.getTicket(DefaultTicketRegistry.java:65) - Ticket [TGT-1-A4Mch7XLz0sZssh0ZoQuDVP1BZbKcYJ4hxxFTdtbHBeJwlSzcf-cas] found in registry.
+2012-12-29 11:40:36,033 INFO: com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager.record(Slf4jLoggingAuditTrailManager.java:41) - Audit trail record BEGIN
+=============================================================
+WHO: admin
+WHAT: ST-1-pS0uSpajeRFMpmVpikPp-cas for http://www.jitar.com.cn:8080/castest1/
+ACTION: SERVICE_TICKET_CREATED
+APPLICATION: CAS
+WHEN: Sat Dec 29 11:40:36 CST 2012
+CLIENT IP ADDRESS: 127.0.0.1
+SERVER IP ADDRESS: 127.0.0.1
+=============================================================
+
+登录成功后转向到了产品页面：
+
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.session.SingleSignOutHandler:118 - Recording session for token ST-1-pS0uSpajeRFMpmVpikPp-cas
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.session.HashMapBackedSessionMappingStorage:60 - Attempting to remove Session=[DF81B99BAC739D64D1F3D0F4D4D98814]
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.session.HashMapBackedSessionMappingStorage:69 - No mapping for session found.  Ignoring.
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.authentication.AuthenticationFilter:125 - 用户开始访问站点，constructServiceUrl()
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.authentication.AuthenticationFilter:130 - serverName=http://www.jitar.com.cn:8080
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.util.CommonUtils:255 - serviceUrl generated: http://www.jitar.com.cn:8080/castest1/;jsessionid=DF81B99BAC739D64D1F3D0F4D4D98814
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:177 - Attempting to validate ticket: ST-1-pS0uSpajeRFMpmVpikPp-cas
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:125 - 用户开始访问站点，constructServiceUrl()
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:130 - serverName=http://www.jitar.com.cn:8080
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.util.CommonUtils:255 - serviceUrl generated: http://www.jitar.com.cn:8080/castest1/;jsessionid=DF81B99BAC739D64D1F3D0F4D4D98814
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:116 - Placing URL parameters in map.
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:124 - Calling template URL attribute map.
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:127 - Loading custom parameters from configuration.
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:202 - Constructing validation url: http://127.0.0.1:8080/usermgr3/serviceValidate?ticket=ST-1-pS0uSpajeRFMpmVpikPp-cas&service=http%3A%2F%2Fwww.jitar.com.cn%3A8080%2Fcastest1%2F%3Bjsessionid%3DDF81B99BAC739D64D1F3D0F4D4D98814&serverName=http://www.jitar.com.cn:8080
+2012-12-29 11:40:36 INFO ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:206 - Retrieving response from server.
+2012-12-29 11:40:36,050 DEBUG: org.jasig.cas.web.support.AbstractSingleSignOutEnabledArgumentExtractor.extractService(AbstractSingleSignOutEnabledArgumentExtractor.java:67) - Extractor generated service for: http://www.jitar.com.cn:8080/castest1/
+2012-12-29 11:40:36,050 DEBUG: org.jasig.cas.web.ServiceValidateController.handleRequestInternal(ServiceValidateController.java:124) - 根据serviceTicketId=ST-1-pS0uSpajeRFMpmVpikPp-cas,验证对应的sevice是否是service=http://www.jitar.com.cn:8080/castest1/
+2012-12-29 11:40:36,053 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.getTicket(DefaultTicketRegistry.java:60) - Attempting to retrieve ticket [ST-1-pS0uSpajeRFMpmVpikPp-cas]
+2012-12-29 11:40:36,053 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.getTicket(DefaultTicketRegistry.java:65) - Ticket [ST-1-pS0uSpajeRFMpmVpikPp-cas] found in registry.
+2012-12-29 11:40:36,053 DEBUG: org.jasig.cas.CentralAuthenticationServiceImpl.determinePrincipalIdForRegisteredService(CentralAuthenticationServiceImpl.java:458) - Principal id to return for service [HTTP and IMAP] is [admin]. The default principal id is [admin].
+2012-12-29 11:40:36,054 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.deleteTicket(DefaultTicketRegistry.java:76) - Removing ticket [ST-1-pS0uSpajeRFMpmVpikPp-cas] from registry
+2012-12-29 11:40:36,054 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.getTicket(DefaultTicketRegistry.java:60) - Attempting to retrieve ticket [ST-1-pS0uSpajeRFMpmVpikPp-cas]
+2012-12-29 11:40:36,055 INFO: com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager.record(Slf4jLoggingAuditTrailManager.java:41) - Audit trail record BEGIN
+=============================================================
+WHO: audit:unknown
+WHAT: ST-1-pS0uSpajeRFMpmVpikPp-cas
+ACTION: SERVICE_TICKET_VALIDATED
+APPLICATION: CAS
+WHEN: Sat Dec 29 11:40:36 CST 2012
+CLIENT IP ADDRESS: 127.0.0.1
+SERVER IP ADDRESS: 127.0.0.1
+=============================================================
+
+
+2012-12-29 11:40:36,065 DEBUG: org.jasig.cas.web.ServiceValidateController.handleRequestInternal(ServiceValidateController.java:150) - Successfully validated service ticket: ST-1-pS0uSpajeRFMpmVpikPp-cas
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:214 - Server response: 
+
+
+
+<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
+    <cas:authenticationSuccess>
+        <cas:user>admin</cas:user>
+
+
+    </cas:authenticationSuccess>
+</cas:serviceResponse>
+
+2012-12-29 11:40:36 INFO ["http-bio-8080"-exec-9] org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl:88 - No Proxy Ticket found for [].
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:184 - Successfully authenticated user: admin
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:195 - Redirecting after successful ticket validation.
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:125 - 用户开始访问站点，constructServiceUrl()
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:130 - serverName=http://www.jitar.com.cn:8080
+2012-12-29 11:40:36 DEBUG ["http-bio-8080"-exec-9] org.jasig.cas.client.util.CommonUtils:255 - serviceUrl generated: http://www.jitar.com.cn:8080/castest1/;jsessionid=DF81B99BAC739D64D1F3D0F4D4D98814
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-自定义登录后，又要转向的过程
+
+第一次进入登陆界面：
+redUrl=null
+referer=http://www.jitar.com.cn:8080/test1/k/gzyw/
+(loginstatus_head.py) CAS Login User: None
+
+在CAS登录成功，要转向 :带参数ru了
+http://www.jitar.com.cn:8080/test1/login/?ticket=ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas&ru=http://www.jitar.com.cn:8080/test1/k/gzyw/
+
+
+2013-01-10 14:01:35,467 DEBUG: com.chinaedustar.sso.cas.util.noFlowLoginAction.handleRequestInternal(noFlowLoginAction.java:149) - CAS登录成功,转向到http://www.jitar.com.cn:8080/test1/login/?ticket=ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas&ru=http://www.jitar.com.cn:8080/test1/k/gzyw/
+
+客户端开始过滤了：
+
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.session.SingleSignOutHandler:118 - Recording session for token ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.session.HashMapBackedSessionMappingStorage:60 - Attempting to remove Session=[80855C22C5FAEC309BC9279FCF637CEF]
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.session.HashMapBackedSessionMappingStorage:69 - No mapping for session found.  Ignoring.
+2013-01-10 14:01:35 INFO ["http-bio-8080"-exec-4] org.jasig.cas.client.authentication.AuthenticationFilter:116 - 获取到的serverName是：http://www.jitar.com.cn:8080
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.util.CommonUtils:247 - serviceUrl generated: http://www.jitar.com.cn:8080/test1/login/
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:165 - Attempting to validate ticket: ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas
+2013-01-10 14:01:35 INFO ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:116 - 获取到的serverName是：http://www.jitar.com.cn:8080
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.util.CommonUtils:247 - serviceUrl generated: http://www.jitar.com.cn:8080/test1/login/
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:116 - Placing URL parameters in map.
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:124 - Calling template URL attribute map.
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:127 - Loading custom parameters from configuration.
+
+生成的验证地址，准备去再次访问服务器来进行验证 
+
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:202 - Constructing validation url: http://localhost:8080/usermgr3/serviceValidate?ticket=ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas&service=http%3A%2F%2Fwww.jitar.com.cn%3A8080%2Ftest1%2Flogin%2F
+2013-01-10 14:01:35 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:206 - Retrieving response from server.
+2013-01-10 14:01:35,500 DEBUG: org.jasig.cas.web.support.AbstractSingleSignOutEnabledArgumentExtractor.extractService(AbstractSingleSignOutEnabledArgumentExtractor.java:67) - Extractor generated service for: http://www.jitar.com.cn:8080/test1/login/
+2013-01-10 14:01:35,500 DEBUG: org.jasig.cas.web.ServiceValidateController.handleRequestInternal(ServiceValidateController.java:124) - 根据serviceTicketId=ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas,验证对应的sevice是否是service=http://www.jitar.com.cn:8080/test1/login/
+2013-01-10 14:01:35,503 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.getTicket(DefaultTicketRegistry.java:60) - Attempting to retrieve ticket [ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas]
+2013-01-10 14:01:35,503 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.getTicket(DefaultTicketRegistry.java:65) - Ticket [ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas] found in registry.
+2013-01-10 14:01:35,508 DEBUG: org.jasig.cas.CentralAuthenticationServiceImpl.determinePrincipalIdForRegisteredService(CentralAuthenticationServiceImpl.java:454) - Principal id to return for service [HTTP and IMAP] is [admin]. The default principal id is [admin].
+2013-01-10 14:01:35,510 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.deleteTicket(DefaultTicketRegistry.java:76) - Removing ticket [ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas] from registry
+2013-01-10 14:01:35,510 DEBUG: org.jasig.cas.ticket.registry.DefaultTicketRegistry.getTicket(DefaultTicketRegistry.java:60) - Attempting to retrieve ticket [ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas]
+2013-01-10 14:01:35,511 INFO: com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager.record(Slf4jLoggingAuditTrailManager.java:41) - Audit trail record BEGIN
+=============================================================
+WHO: audit:unknown
+WHAT: ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas
+ACTION: SERVICE_TICKET_VALIDATED
+APPLICATION: CAS
+WHEN: Thu Jan 10 14:01:35 CST 2013
+CLIENT IP ADDRESS: 127.0.0.1
+SERVER IP ADDRESS: 127.0.0.1
+=============================================================
+
+
+2013-01-10 14:01:35,526 DEBUG: org.jasig.cas.web.ServiceValidateController.handleRequestInternal(ServiceValidateController.java:150) - Successfully validated service ticket: ST-1-SvqfmeKLnw4Rs7aZx3GZ-cas
+
+验证成功，生成XML来返回消息
+
+2013-01-10 14:01:35,566 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLSecurity(DefaultBootstrap.java:158) - Initializing Apache XMLSecurity library
+2013-01-10 14:01:35,585 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Canonicalizer.register(http://www.w3.org/TR/2001/REC-xml-c14n-20010315, org.apache.xml.security.c14n.implementations.Canonicalizer20010315OmitComments)
+2013-01-10 14:01:35,586 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Canonicalizer.register(http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments, org.apache.xml.security.c14n.implementations.Canonicalizer20010315WithComments)
+2013-01-10 14:01:35,588 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Canonicalizer.register(http://www.w3.org/2001/10/xml-exc-c14n#, org.apache.xml.security.c14n.implementations.Canonicalizer20010315ExclOmitComments)
+2013-01-10 14:01:35,588 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Canonicalizer.register(http://www.w3.org/2001/10/xml-exc-c14n#WithComments, org.apache.xml.security.c14n.implementations.Canonicalizer20010315ExclWithComments)
+2013-01-10 14:01:35,591 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Canonicalizer.register(http://www.w3.org/2006/12/xml-c14n11, org.apache.xml.security.c14n.implementations.Canonicalizer11_OmitComments)
+2013-01-10 14:01:35,591 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Canonicalizer.register(http://www.w3.org/2006/12/xml-c14n11#WithComments, org.apache.xml.security.c14n.implementations.Canonicalizer11_WithComments)
+2013-01-10 14:01:35,595 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/2000/09/xmldsig#base64, org.apache.xml.security.transforms.implementations.TransformBase64Decode)
+2013-01-10 14:01:35,596 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/TR/2001/REC-xml-c14n-20010315, org.apache.xml.security.transforms.implementations.TransformC14N)
+2013-01-10 14:01:35,598 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments, org.apache.xml.security.transforms.implementations.TransformC14NWithComments)
+2013-01-10 14:01:35,600 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/2006/12/xml-c14n11, org.apache.xml.security.transforms.implementations.TransformC14N11)
+2013-01-10 14:01:35,601 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/2006/12/xml-c14n11#WithComments, org.apache.xml.security.transforms.implementations.TransformC14N11_WithComments)
+2013-01-10 14:01:35,602 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/2001/10/xml-exc-c14n#, org.apache.xml.security.transforms.implementations.TransformC14NExclusive)
+2013-01-10 14:01:35,603 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/2001/10/xml-exc-c14n#WithComments, org.apache.xml.security.transforms.implementations.TransformC14NExclusiveWithComments)
+2013-01-10 14:01:35,606 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/TR/1999/REC-xpath-19991116, org.apache.xml.security.transforms.implementations.TransformXPath)
+2013-01-10 14:01:35,607 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/2000/09/xmldsig#enveloped-signature, org.apache.xml.security.transforms.implementations.TransformEnvelopedSignature)
+2013-01-10 14:01:35,610 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/TR/1999/REC-xslt-19991116, org.apache.xml.security.transforms.implementations.TransformXSLT)
+2013-01-10 14:01:35,611 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/2002/04/xmldsig-filter2, org.apache.xml.security.transforms.implementations.TransformXPath2Filter)
+2013-01-10 14:01:35,611 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Transform.register(http://www.w3.org/2002/06/xmldsig-filter2, org.apache.xml.security.transforms.implementations.TransformXPath2Filter)
+2013-01-10 14:01:35,615 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.providerInit(Unknown Source) - Init() called
+2013-01-10 14:01:35,617 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2000/09/xmldsig#dsa-sha1, org.apache.xml.security.algorithms.implementations.SignatureDSA)
+2013-01-10 14:01:35,618 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2000/09/xmldsig#dsa-sha1 org.apache.xml.security.algorithms.implementations.SignatureDSA
+2013-01-10 14:01:35,620 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2000/09/xmldsig#rsa-sha1, org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA1)
+2013-01-10 14:01:35,620 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2000/09/xmldsig#rsa-sha1 org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA1
+2013-01-10 14:01:35,622 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2000/09/xmldsig#hmac-sha1, org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacSHA1)
+2013-01-10 14:01:35,622 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2000/09/xmldsig#hmac-sha1 org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacSHA1
+2013-01-10 14:01:35,622 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#rsa-md5, org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSAMD5)
+2013-01-10 14:01:35,623 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#rsa-md5 org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSAMD5
+2013-01-10 14:01:35,623 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#rsa-ripemd160, org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSARIPEMD160)
+2013-01-10 14:01:35,623 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#rsa-ripemd160 org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSARIPEMD160
+2013-01-10 14:01:35,625 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#rsa-sha256, org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA256)
+2013-01-10 14:01:35,625 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#rsa-sha256 org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA256
+2013-01-10 14:01:35,626 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#rsa-sha384, org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA384)
+2013-01-10 14:01:35,626 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#rsa-sha384 org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA384
+2013-01-10 14:01:35,626 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#rsa-sha512, org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA512)
+2013-01-10 14:01:35,627 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#rsa-sha512 org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA512
+2013-01-10 14:01:35,628 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha1, org.apache.xml.security.algorithms.implementations.SignatureECDSA$SignatureECDSASHA1)
+2013-01-10 14:01:35,628 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha1 org.apache.xml.security.algorithms.implementations.SignatureECDSA$SignatureECDSASHA1
+2013-01-10 14:01:35,630 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#hmac-md5, org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacMD5)
+2013-01-10 14:01:35,630 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#hmac-md5 org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacMD5
+2013-01-10 14:01:35,630 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#hmac-ripemd160, org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacRIPEMD160)
+2013-01-10 14:01:35,631 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#hmac-ripemd160 org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacRIPEMD160
+2013-01-10 14:01:35,631 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#hmac-sha256, org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacSHA256)
+2013-01-10 14:01:35,632 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#hmac-sha256 org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacSHA256
+2013-01-10 14:01:35,632 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#hmac-sha384, org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacSHA384)
+2013-01-10 14:01:35,633 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#hmac-sha384 org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacSHA384
+2013-01-10 14:01:35,633 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - SignatureAlgorithm.register(http://www.w3.org/2001/04/xmldsig-more#hmac-sha512, org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacSHA512)
+2013-01-10 14:01:35,633 DEBUG: org.apache.xml.security.algorithms.SignatureAlgorithm.register(Unknown Source) - Try to register http://www.w3.org/2001/04/xmldsig-more#hmac-sha512 org.apache.xml.security.algorithms.implementations.IntegrityHmac$IntegrityHmacSHA512
+2013-01-10 14:01:35,641 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.utils.resolver.implementations.ResolverDirectHTTP: A simple resolver for requests to HTTP space
+2013-01-10 14:01:35,643 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.utils.resolver.implementations.ResolverLocalFilesystem: A simple resolver for requests to the local file system
+2013-01-10 14:01:35,645 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.utils.resolver.implementations.ResolverFragment: A simple resolver for requests of same-document URIs
+2013-01-10 14:01:35,646 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.utils.resolver.implementations.ResolverXPointer: A simple resolver for requests of XPointer fragents
+2013-01-10 14:01:35,648 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.keys.keyresolver.implementations.RSAKeyValueResolver: Can extract RSA public keys
+2013-01-10 14:01:35,650 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.keys.keyresolver.implementations.DSAKeyValueResolver: Can extract DSA public keys
+2013-01-10 14:01:35,651 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.keys.keyresolver.implementations.X509CertificateResolver: Can extract public keys from X509 certificates
+2013-01-10 14:01:35,651 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.keys.keyresolver.implementations.X509SKIResolver: Uses an X509v3 SubjectKeyIdentifier extension to retrieve a certificate from the storages
+2013-01-10 14:01:35,652 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.keys.keyresolver.implementations.RetrievalMethodResolver: Resolves keys and certificates using ResourceResolvers
+2013-01-10 14:01:35,655 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.keys.keyresolver.implementations.X509SubjectNameResolver: Uses an X509 SubjectName to retrieve a certificate from the storages
+2013-01-10 14:01:35,656 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Register Resolver: org.apache.xml.security.keys.keyresolver.implementations.X509IssuerSerialResolver: Uses an X509 IssuerName and IssuerSerial to retrieve a certificate from the storages
+2013-01-10 14:01:35,657 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Now I try to bind prefixes:
+2013-01-10 14:01:35,657 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Now I try to bind ds to http://www.w3.org/2000/09/xmldsig#
+2013-01-10 14:01:35,658 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Now I try to bind xenc to http://www.w3.org/2001/04/xmlenc#
+2013-01-10 14:01:35,658 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Now I try to bind experimental to http://www.xmlsecurity.org/experimental#
+2013-01-10 14:01:35,658 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Now I try to bind dsig-xpath-old to http://www.w3.org/2002/04/xmldsig-filter2
+2013-01-10 14:01:35,660 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Now I try to bind dsig-xpath to http://www.w3.org/2002/06/xmldsig-filter2
+2013-01-10 14:01:35,660 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Now I try to bind ec to http://www.w3.org/2001/10/xml-exc-c14n#
+2013-01-10 14:01:35,660 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - Now I try to bind xx to http://www.nue.et-inf.uni-siegen.de/~geuer-pollmann/#xpathFilter
+2013-01-10 14:01:35,660 DEBUG: org.apache.xml.security.Init.init(Unknown Source) - XX_init                             93 ms
+2013-01-10 14:01:35,660 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_prng                           0 ms
+2013-01-10 14:01:35,661 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_parsing                        4 ms
+2013-01-10 14:01:35,661 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_configure_i18n                 1 ms
+2013-01-10 14:01:35,661 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_configure_reg_c14n             15 ms
+2013-01-10 14:01:35,661 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_configure_reg_jcemapper        2 ms
+2013-01-10 14:01:35,661 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_configure_reg_keyInfo          6 ms
+2013-01-10 14:01:35,662 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_configure_reg_keyResolver      10 ms
+2013-01-10 14:01:35,662 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_configure_reg_prefixes         3 ms
+2013-01-10 14:01:35,662 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_configure_reg_resourceresolver 9 ms
+2013-01-10 14:01:35,663 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_configure_reg_sigalgos         24 ms
+2013-01-10 14:01:35,663 DEBUG: org.apache.xml.security.Init.init(Unknown Source) -   XX_configure_reg_transforms       19 ms
+2013-01-10 14:01:35,663 DEBUG: org.opensaml.DefaultBootstrap.initializeVelocity(DefaultBootstrap.java:171) - Initializing Velocity template engine
+2013-01-10 14:01:35,745 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /default-config.xml
+2013-01-10 14:01:35,877 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /schema-config.xml
+2013-01-10 14:01:35,895 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /signature-config.xml
+2013-01-10 14:01:35,950 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /signature-validation-config.xml
+2013-01-10 14:01:35,967 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /encryption-config.xml
+2013-01-10 14:01:36,012 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /encryption-validation-config.xml
+2013-01-10 14:01:36,021 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /soap11-config.xml
+2013-01-10 14:01:36,036 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /wsfed11-protocol-config.xml
+2013-01-10 14:01:36,046 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml1-assertion-config.xml
+2013-01-10 14:01:36,093 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml1-protocol-config.xml
+2013-01-10 14:01:36,120 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml1-core-validation-config.xml
+2013-01-10 14:01:36,135 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-assertion-config.xml
+2013-01-10 14:01:36,197 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-protocol-config.xml
+2013-01-10 14:01:36,267 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-core-validation-config.xml
+2013-01-10 14:01:36,296 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml1-metadata-config.xml
+2013-01-10 14:01:36,300 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-metadata-config.xml
+2013-01-10 14:01:36,373 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-metadata-validation-config.xml
+2013-01-10 14:01:36,400 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-metadata-attr-config.xml
+2013-01-10 14:01:36,403 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-metadata-idp-discovery-config.xml
+2013-01-10 14:01:36,407 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-metadata-ui-config.xml
+2013-01-10 14:01:36,428 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-protocol-thirdparty-config.xml
+2013-01-10 14:01:36,432 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-metadata-query-config.xml
+2013-01-10 14:01:36,441 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-assertion-delegation-restriction-config.xml
+2013-01-10 14:01:36,447 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /saml2-ecp-config.xml
+2013-01-10 14:01:36,454 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /xacml10-saml2-profile-config.xml
+2013-01-10 14:01:36,467 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /xacml11-saml2-profile-config.xml
+2013-01-10 14:01:36,473 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /xacml20-context-config.xml
+2013-01-10 14:01:36,508 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /xacml20-policy-config.xml
+2013-01-10 14:01:36,583 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /xacml2-saml2-profile-config.xml
+2013-01-10 14:01:36,588 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /xacml3-saml2-profile-config.xml
+2013-01-10 14:01:36,593 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /wsaddressing-config.xml
+2013-01-10 14:01:36,623 DEBUG: org.opensaml.DefaultBootstrap.initializeXMLTooling(DefaultBootstrap.java:198) - Loading XMLTooling configuration /wssecurity-config.xml
+2013-01-10 14:01:36,659 DEBUG: org.opensaml.DefaultBootstrap.initializeArtifactBuilderFactories(DefaultBootstrap.java:210) - Initializing SAML Artifact builder factories
+
+
+2013-01-10 14:01:36 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ServiceTicketValidator:214 - Server response: 
+
+客户端得到消息，注意了，可以在cas:attributes中配置更多的用户信息
+
+
+<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
+    <cas:authenticationSuccess>
+        <cas:user>admin</cas:user>
+
+
+<cas:attributes>
+        
+</cas:attributes>
+    </cas:authenticationSuccess>
+</cas:serviceResponse>
+
+2013-01-10 14:01:36 INFO ["http-bio-8080"-exec-4] org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl:88 - No Proxy Ticket found for [].
+
+当前用户验证成功！
+2013-01-10 14:01:36 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:172 - Successfully authenticated user: admin
+
+
+当前登录的用户名：admin
+Session 设置成功！
+添加或更新在线用户：用户Id:1,登录名:admin,当前登录时间:1357797696753[2013年01月10日 14时01分36秒]
+
+2013-01-10 14:01:36 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:183 - Redirecting after successful ticket validation.
+2013-01-10 14:01:36 INFO ["http-bio-8080"-exec-4] org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter:116 - 获取到的serverName是：http://www.jitar.com.cn:8080
+2013-01-10 14:01:36 DEBUG ["http-bio-8080"-exec-4] org.jasig.cas.client.util.CommonUtils:247 - serviceUrl generated: http://www.jitar.com.cn:8080/test1/login/
+
+
+
+request.getQueryString()=null
+登录后的ssoId:admin
+（login/index.jsp）Session中的loginName：admin
+（login/index.jsp）Session中的UserModel对象：User{id=1,loginName=admin}
+返回的登录前的地址：null
+(loginstatus_head.py) CAS Login User: admin
+Put into session ssoId: admin
+User Object: User{id=1,loginName=admin}
+
+
+找到原因了 AuthenticationFilter.java 去Redirect转向，把前面的ru丢了
+
+

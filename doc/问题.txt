@@ -1,0 +1,6 @@
+CAS登录，刷新教研首页，不是登录状态
+教研只是过滤了/login/*
+
+解决方法：
+在首页上掩藏一个
+<iframe name="__hiddenframe" style="display:none" src="${SiteUrl}login/index.jsp"></iframe>

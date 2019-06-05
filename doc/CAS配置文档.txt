@@ -1,0 +1,228 @@
+一，单点登录系统部分：
+    
+         需要jdk1.7.0
+    tomcat7.0 
+    
+	1，配置统一用户数据库连接地址，文件路径：\WEB-INF\cas.properties
+		jdbc.url = jdbc:jtds:sqlserver://192.168.3.6:1433;DatabaseName=jitar2011User
+		jdbc.user = abc
+		jdbc.password = abc
+		
+	2，日志部分的配置，文件路径：\WEB-INF\classes\log4j.xml
+		
+二，Tomcat中配置访问方式：
+    <Host name="localhost" appBase="" unpackWARs="false" autoDeploy="false">
+        <Context path="" docBase="应用地址" />
+        <Context path="/usermgr3" docBase="统一用户地址" />
+        <Context path="/upload" docBase="文件上传路径" />
+    </Host>		
+
+三，产品应用部分：
+	1，数据库连接配置（以教研为例），文件路径：\WEB-INF\classes\database.xml
+	
+	2，配置统一用户的地址以及接口地址，文件路径：\WEB-INF\web.xml
+	     
+	     需要在Web.XML中增加以下代码。 注意各个filter的增加顺序。
+               下面的配置是以http://www.jitar.com.cn:8080/usermgr3为例子来进行配置的，实际服务器地址按照实际情况来修改  
+    
+    <!--必须放在单点登录配置的最前面，配置不需要修改，加进去就可以。-->           
+    <filter>
+        <filter-name>CasConstFilter</filter-name>
+        <filter-class>org.jasig.cas.client.util.CasConstFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CasConstFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+     
+    <!-- 单点登录退出过滤器 ，配置不需要修改，加进去就可以。-->
+    <filter>  
+        <filter-name>CAS Single Sign Out Filter</filter-name>
+        <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Single Sign Out Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+         
+    <!-- 单点登录的CAS登录过滤器。系统将自动验证是否登录，没登录，将自动转向到casServerLoginUrl (单点登录服务器的登录地址)-->               
+    <filter>
+        <filter-name>CAS-Authentication-Filter</filter-name> 
+        <filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class> 
+        <init-param>
+            <param-name>casServerLoginUrl</param-name> 
+            <param-value>http://www.jitar.com.cn:8080/usermgr3/login</param-value><!--这里必须修改。修改这里登录地址,要指向login.如果为空，则必须安装在本地，且名称必须是usermgr3 -->
+        </init-param>
+        <init-param>
+            <param-name>serverName</param-name>
+            <param-value>http://www.jitar.com.cn</param-value><!--可以修改这里。主要是和其他产品整合。在一个集群里，都使用同一个serverName. 如果只有本产品使用统一用户,可默认保留此设置。如果进行设置，则需要用http://开头；单个产品使用单点登录也可以为空。-->
+        </init-param>
+        <init-param>
+            <param-name>callbackLogOutUrl</param-name>
+            <param-value>/logout</param-value><!--单点登录系统的回调的注销地址.指向本产品的注销过程或action. ***此处开发者需要配置***，并创建action。 产品成版发布安装则不需要再次配置-->
+        </init-param>
+        <init-param>
+            <param-name>returnUrl</param-name>
+            <param-value>/login/index.jsp</param-value><!--单点登录系统登录后的返回到本产品的URL.***此处开发者需要配置***， 产品成版发布安装则不需要再次配置。可以为空，则返回首页-->
+        </init-param>       
+    </filter>
+          
+    <!-- 登录后的验证过滤器.也就是当在单点服务器上登录完成并返回本产品后，将再去单点服务器上验证一次。-->
+    <filter>
+        <filter-name>CASValidationFilter</filter-name>
+        <filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+        <init-param>
+            <param-name>casServerUrlPrefix</param-name>
+            <param-value>http://www.jitar.com.cn:8080/usermgr3/</param-value><!--必须修改。这是单点服务器的URL.  如果为空，则必须安装在本地，且名称必须是usermgr3-->
+        </init-param>
+        <init-param>
+            <param-name>serverName</param-name>
+            <param-value>http://www.jitar.com.cn</param-value><!--注意：需要和上面的serverName一致-->
+        </init-param>
+    </filter>
+    
+    <!-- CAS登录信息封装过滤器 ，无需修改，加进去就可以-->
+    <filter>
+        <filter-name>CAS-HttpServletRequest-Wrapper-Filter</filter-name>
+        <filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+    </filter>      
+      
+    <!--下面的是对上面的几个Filter的URL Path设置-->
+    <filter-mapping>
+        <filter-name>CAS-Authentication-Filter</filter-name>
+        <url-pattern>/*</url-pattern><!--必须登录的Path.也就是访问这里的时候，如果没登录将自动转向到单点服务器上去登录。-->
+        <!--
+        这里需要注意下啦。设置成/*则访问首页也将先验证是否登录。
+        如果有些系统，可以不需要登录就能访问，则需要设置到几个特殊的页面上。访问这些页面，就再验证是否登录。
+        -->  
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CASValidationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CAS-HttpServletRequest-Wrapper-Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+         配置到这里，只是实现了产品与单点服务器之间的配置，本产品如何验证使用：
+        得到用户的登录名。
+             
+String userloginname ="";
+
+org.jasig.cas.client.authentication.AttributePrincipal principal = (org.jasig.cas.client.authentication.AttributePrincipal) request.getUserPrincipal();
+if(principal!=null){
+    userloginname = principal.getName(); 
+}
+
+或者 request.getRemoteUser()也能得到。
+
+在教研平台里，是增加了一个监听器来实现登录用户的信息处理：可以参考：
+    <listener>
+        <listener-class>cn.edustar.jitar.listener.HttpSessionListener</listener-class>
+    </listener>         
+    
+HttpSessionListener类的实现代码：
+
+package cn.edustar.jitar.listener;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionBindingEvent;
+
+import org.jasig.cas.client.validation.AssertionImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import cn.edustar.jitar.pojos.User;
+import cn.edustar.jitar.pojos.UserOnLine;
+import cn.edustar.jitar.service.OnLineService;
+import cn.edustar.jitar.service.UserService;
+
+/**
+ * 监听 CAS 中 session 的创建和删除，自动根据单点登录系统的信息设置本系统的用户信息
+ */
+public class HttpSessionListener implements HttpSessionAttributeListener {
+
+    public void attributeAdded(HttpSessionBindingEvent e) {
+//      System.out.println("HttpSessionBindingEvent：" + e.getName());
+        
+        // _const_cas_assertion_是CAS中存放登录用户名的session标志
+        if ("_const_cas_assertion_".equals(e.getName())) {
+            Object obj = e.getValue();
+            if ((obj != null) && (obj instanceof AssertionImpl)) {
+                AssertionImpl assertion = (AssertionImpl) obj;
+                String ssoId = assertion.getPrincipal().getName();
+                System.out.println("当前登录的用户名：" + ssoId);
+                
+                User user = null;
+                ServletContext sc = e.getSession().getServletContext();
+                ApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
+                UserService userService = (UserService) ac.getBean("userService");
+                OnLineService onlineService = (OnLineService) ac.getBean("onlineService");
+                user = userService.getUserByLoginName(ssoId);
+
+                if (null == user) {
+                    user = new User();
+                    user.setLoginName(ssoId);
+                    user.setUserStatus(1);
+                    user.setUsn(1);
+                    user.setPositionId(3);
+                    user.setVirtualDirectory("u");
+                    user.setUserFileFolder(ssoId);
+                    user.setBlogName(ssoId + " 的博客");
+                    userService.createUser(user);
+                    System.out.println("本地用户：" + user.getLoginName() + "，创建成功！");
+                }
+                
+                e.getSession().setAttribute(User.SESSION_LOGIN_NAME_KEY, ssoId);
+                e.getSession().setAttribute(User.SESSION_LOGIN_USERMODEL_KEY, user);
+                System.out.println("Session 设置成功！");
+
+                long nowTime = System.currentTimeMillis();
+                SimpleDateFormat sdf = new SimpleDateFormat("", Locale.SIMPLIFIED_CHINESE);
+                sdf.applyPattern("yyyy年MM月dd日 HH时mm分ss秒");
+                System.out.println("添加或更新在线用户：用户Id:" + user.getUserId() + ",登录名:" + user.getLoginName() + ",当前登录时间:" + nowTime + "[" + sdf.format(Long.valueOf(nowTime)) + "]");
+                UserOnLine userOnLine = new UserOnLine();
+                userOnLine.setUserId(Integer.valueOf(user.getUserId()));
+                userOnLine.setUserName(user.getLoginName());
+                userOnLine.setOnlineTime(nowTime);
+                onlineService.saveUserOnLine(userOnLine);
+            }
+        }
+    }
+
+    public void attributeRemoved(HttpSessionBindingEvent arg0) {
+//      System.out.println("Imcoming......");
+    }
+
+    public void attributeReplaced(HttpSessionBindingEvent arg0) {
+//      System.out.println("Nothing to do ...");
+    }
+    
+    @SuppressWarnings("unused")
+    private static final String getClientTicket(HttpServletRequest request) {
+        String userTicket = "";
+        Cookie[] cookies = request.getCookies();
+        if (null != cookies) {
+            for (Cookie cookie : cookies) {
+                if ("UserTicket".equals(cookie.getName())) {
+                    userTicket = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        return null == userTicket ? "" : userTicket;
+    }
+
+}
+
+    
+    
+
+ 

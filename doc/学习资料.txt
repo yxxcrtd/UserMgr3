@@ -1,0 +1,4 @@
+1, CAS Client 3.2.1 API
+http://www.jarvana.com/jarvana/view/org/jasig/cas/client/cas-client-core/3.2.1/cas-client-core-3.2.1-javadoc.jar!/index.html
+
+2, QQ 群：40456802，243731259

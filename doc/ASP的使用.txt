@@ -1,0 +1,62 @@
+
+CAS SSO结合ASP
+分类： 网站相关 2007-02-07 22:46 1042人阅读 评论(0) 收藏 举报
+Dim casServer
+ casServer = "localhost:8443/cas"
+
+ 'Declare additional variables used for redirect
+ Dim protocol, originatingURL, caseNetworkID
+
+ 'Determine the protocol for the originitating page
+ if Request.ServerVariables("HTTPS") = "off" then
+  protocol = "http"
+ else
+  protocol = "https"
+ end if
+
+ 'Construct the originatingURL variable based on ServerVariables
+ originatingURL = protocol & "://localhost"  & Request.ServerVariables("URL")
+
+ 'Check to see if the 'ticket' variable was passed via the query string
+ if Request.QueryString("ticket") = "" then
+  'If no, then redirect to CAS
+  
+  Response.Redirect("https://" & casServer & "/login?service=" & originatingURL+"&url="&originatingURL)
+ else
+  Dim objSvrHTTP, ticket, casResponse, casResponseArray
+
+  ticket = Request.QueryString("ticket")
+
+  Set objSvrHTTP = Server.CreateObject("Msxml2.ServerXMLHTTP.5.0")
+  objSvrHTTP.open "GET", "https://" & casServer & "/validate?ticket="+ ticket +"&service=" & originatingURL, false
+  'Response.Write  "https://" & casServer & "/validate?ticket="+ ticket +"&service=" & originatingURL
+  objSvrHTTP.setOption(2) = 13056 
+
+  objSvrHTTP.send
+  casResponse = objSvrHTTP.responseText
+  casResponseArray = Split(casResponse, Chr(10), -1, 1)
+
+  if casResponseArray(0) = "no" then
+   Response.Redirect("https://" & casServer & "/login?service=" & originatingURL)
+  else
+   caseNetworkID = casResponseArray(1)
+   if caseNetworkID="masterQi" then
+   '读数据库，进行用户session设值
+   Session("netId")="masterQi"      
+   Session("userId")="592"     
+   Session("username")="masterQi"
+   Session("color")="masterQi3"
+   Session("corpId")="116"
+   Session("deptId")="144"
+   Session("deptName")="技术开发部" 
+   Session("PassWord")="0000"
+   Session("corpIdList")="116,144,145,146,157,158,159"
+   Session("Screenwidth")=1024 
+   end if
+  end if
+
+ end if
+ 
+ 如果，你现在的调试中在send方法那里报错的话， 请用ServerXMLHTTP.4.0或ServerXMLHTTP.5.0
+
+并加上objSvrHTTP.setOption(2) = 13056 ，即可解决
